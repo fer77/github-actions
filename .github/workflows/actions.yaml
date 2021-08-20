@@ -2,7 +2,7 @@ name: Actions Workflow
 
 on:
   schedule:
-    - cron: "0/5 * * * *" # minute hour day(month) month day(week)
+    - cron: "*/5 * * * *" # minute hour day(month) month day(week)
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
