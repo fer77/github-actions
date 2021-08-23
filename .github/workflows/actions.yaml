@@ -1,8 +1,6 @@
 name: Actions Workflow
 
-on:
-  schedule:
-    - cron: "*/5 * * * *" # minute hour day(month) month day(week)
+on: [push]
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
