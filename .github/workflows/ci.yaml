@@ -14,14 +14,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm test -- --coverage
+      - run: yarn install --frozen-lockfile
+      - run: yarn format:check
+      - run: yarn test -- --coverage
         env:
           CI: true
       - name: Build Project
         if: github.event_name == 'push'
-        run: npm build
+        run: yarn build
       - name: Deploy to Stage
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain sable-goose.surge.sh
