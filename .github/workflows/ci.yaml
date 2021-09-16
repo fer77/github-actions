@@ -10,18 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use NodeJS
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm test -- --coverage
+      - name: Use Yarn
+        uses: bahmutov/npm-install@v1
+      - run: npm t
+      - run: yarn install --frozen-lockfile
+      - run: yarn format:check
+      - run: yarn test -- --coverage
         env:
           CI: true
       - name: Build Project
         if: github.event_name == 'push'
-        run: npm build
+        run: yarn build
       - name: Deploy to Stage
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain sable-goose.surge.sh
