@@ -1,9 +1,9 @@
 name: CI
 on:
   pull_request:
-    branches: [dev, master]
+    branches: [dev]
   push:
-    branches: [dev, master]
+    branches: [dev]
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-v0-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Use Yarn
@@ -31,11 +31,6 @@ jobs:
       - name: Build Project
         if: github.event_name == 'push'
         run: yarn build
-      - name: Create a Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to Stage
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain sable-goose.surge.sh
